@@ -38,12 +38,15 @@ ConnectingPeople-Ex/
 ### Backend
 
 cd server
+
 npm install
-# Create a .env file with MONGO_URI and PORT
+
 npm run dev
 
 ### Frontend
 
 cd client
+
 npm install
+
 npm run dev
