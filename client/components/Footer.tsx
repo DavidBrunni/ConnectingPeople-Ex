@@ -46,15 +46,17 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0a1628] text-white pt-20 pb-8 border-t border-white/5">
+    <footer className="bg-[#0a1628] text-white pt-20 pb-8 outline-none">
+      {/* Separator som heldragen linje istället för border (undviker prickad rendering i Chrome) */}
+      <div className="h-px w-full bg-white/5" aria-hidden />
       <div className="container mx-auto px-6">
-
+        
         {/* Main footer content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
-
+          
           {/* Brand & Socials */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4 group w-fit">
+            <Link href="/" className="flex items-center gap-2 mb-4 group w-fit rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1628]">
               <Plane className="w-8 h-8 text-cyan-400 group-hover:scale-110 transition-transform" />
               <span className="text-xl font-semibold">Connecting People</span>
             </Link>
@@ -70,7 +72,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1628]"
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
@@ -88,7 +90,7 @@ export function Footer() {
                   <li key={index}>
                     <Link
                       href={link.href}
-                      className="text-gray-400 hover:text-cyan-400 transition-colors block w-fit"
+                      className="text-gray-400 hover:text-cyan-400 transition-colors block w-fit rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1628]"
                     >
                       {link.label}
                     </Link>
@@ -100,19 +102,20 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/10">
+        <div className="pt-8">
+          <div className="h-px w-full bg-white/10 mb-8" aria-hidden />
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
               © {currentYear} Connecting People. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <Link href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">
+              <Link href="#" className="text-gray-400 hover:text-cyan-400 transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1628]">
                 Terms
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">
+              <Link href="#" className="text-gray-400 hover:text-cyan-400 transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1628]">
                 Privacy
               </Link>
-              <Link href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">
+              <Link href="#" className="text-gray-400 hover:text-cyan-400 transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1628]">
                 Cookies
               </Link>
             </div>

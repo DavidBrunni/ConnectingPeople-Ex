@@ -7,31 +7,31 @@ const steps: {
   color: string;
   bgColor: string;
 }[] = [
-    {
-      icon: MapPin,
-      title: "Create your trip",
-      description:
-        "Share your destination, dates, and travel style to find the perfect match.",
-      color: "text-cyan-500",
-      bgColor: "bg-cyan-50",
-    },
-    {
-      icon: Users,
-      title: "Get matched with travelers",
-      description:
-        "Our algorithm connects you with compatible travelers based on interests and preferences.",
-      color: "text-orange-500",
-      bgColor: "bg-orange-50",
-    },
-    {
-      icon: MessageCircle,
-      title: "Chat and meet up",
-      description:
-        "Use our secure messaging to plan activities and coordinate meetups at your destination.",
-      color: "text-cyan-500",
-      bgColor: "bg-cyan-50",
-    },
-  ];
+  {
+    icon: MapPin,
+    title: "Create your trip",
+    description:
+      "Share your destination, dates, and travel style to find the perfect match.",
+    color: "text-cyan-500",
+    bgColor: "bg-cyan-50",
+  },
+  {
+    icon: Users,
+    title: "Get matched with travelers",
+    description:
+      "Our algorithm connects you with compatible travelers based on interests and preferences.",
+    color: "text-orange-500",
+    bgColor: "bg-orange-50",
+  },
+  {
+    icon: MessageCircle,
+    title: "Chat and meet up",
+    description:
+      "Use our secure messaging to plan activities and coordinate meetups at your destination.",
+    color: "text-cyan-500",
+    bgColor: "bg-cyan-50",
+  },
+];
 
 export function HowItWorks() {
   return (

@@ -2,14 +2,11 @@
 
 :root {
   /* Basfärger */
-  --background: 0 0% 100%;
-  /* Vit */
-  --foreground: 222 47% 11%;
-  /* Mörkblå text (#0f172a) */
+  --background: 0 0% 100%;       /* Vit */
+  --foreground: 222 47% 11%;     /* Mörkblå text (#0f172a) */
 
   /* Primary (Cyan för "Create a Trip") */
-  --primary: 189 94% 43%;
-  /* Cyan-500 (#06b6d4) */
+  --primary: 189 94% 43%;        /* Cyan-500 (#06b6d4) */
   --primary-foreground: 0 0% 100%;
 
   /* Secondary, Muted, Accent, Destructive */
@@ -54,7 +51,38 @@
   border-color: hsl(var(--border));
 }
 
+/* Ta bort webbläsarens prickade/diagonala fokusring (kryss över sidan/footer) */
+html,
+body {
+  outline: none !important;
+  box-shadow: none !important;
+}
+html:focus,
+body:focus,
+html:focus-visible,
+body:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+*:focus {
+  outline: none !important;
+}
+*:focus-visible {
+  outline: none !important;
+}
+/* Tvinga heldragen kant – undvik att Chrome ritar prickad linje */
+footer {
+  border: none !important;
+  border-style: none !important;
+}
+/* Länkar och knappar har egen focus-visible:ring i komponenterna – då syns fokus ändå */
+
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
