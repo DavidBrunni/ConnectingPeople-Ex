@@ -1,18 +1,52 @@
 import Link from "next/link";
+import Image from "next/image";
 import Header from "./Header";
 
-const Hero = (): JSX.Element => {
+const cityImages = [
+  { src: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&q=80", alt: "Paris" },
+  { src: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=80", alt: "Tokyo" },
+  { src: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=400&q=80", alt: "New York" },
+  { src: "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=400&q=80", alt: "London" },
+  { src: "https://images.unsplash.com/photo-1527838832700-5059252407fa?w=400&q=80", alt: "Barcelona" },
+  { src: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&q=80", alt: "Dubai" },
+  { src: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=400&q=80", alt: "Amsterdam" },
+  { src: "https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=400&q=80", alt: "Sydney" },
+];
+
+const Hero = () => {
   return (
-    <section className="relative bg-[#0a1628] text-white overflow-hidden">
+    <section className="relative h-screen min-h-[480px] flex flex-col bg-[#0a1628] text-white overflow-hidden">
+      {/* Film strip – scrolling cities background */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div className="absolute inset-0 bg-[#0a1628]/70 z-[1]" />
+        <div className="absolute inset-0 flex items-center overflow-hidden z-0">
+          <div className="flex animate-[scroll_70s_linear_infinite] w-max">
+            {[...cityImages, ...cityImages].map((city, i) => (
+              <div key={i} className="relative flex-shrink-0 w-[260px] sm:w-[320px] md:w-[400px] lg:w-[520px] xl:w-[600px] h-[160px] sm:h-[200px] md:h-[250px] lg:h-[340px] xl:h-[400px] mx-1 sm:mx-1.5 md:mx-2 rounded-lg overflow-hidden opacity-90">
+                <Image
+                  src={city.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, (max-width: 1024px) 400px, (max-width: 1280px) 520px, 600px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Background effects */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
+      <div className="absolute inset-0 opacity-10 pointer-events-none z-[2]">
         <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500 rounded-full blur-3xl" />
       </div>
 
-      <Header />
+      <div className="relative z-10">
+        <Header />
+      </div>
 
-      <div className="relative container mx-auto px-6 py-20 md:py-32">
+      <div className="relative z-10 container mx-auto px-6 py-6 sm:py-12 md:py-20 flex-1 flex flex-col justify-center min-h-0">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
             Find your travel tribe
@@ -40,8 +74,8 @@ const Hero = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Wave separator */}
-      <div className="absolute bottom-0 left-0 right-0" aria-hidden="true">
+      {/* Wave separator – längst ner på första skärmen */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 mt-auto" aria-hidden="true">
         <svg
           viewBox="0 0 1440 120"
           className="w-full h-auto"

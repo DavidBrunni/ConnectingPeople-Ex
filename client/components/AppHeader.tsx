@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Plane, Menu, X } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const appNav = [
   { label: "Home", href: "/" },
@@ -15,7 +16,15 @@ const appNav = [
 
 export function AppHeader() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { isLoggedIn, signOut } = useAuth();
   const [open, setOpen] = useState(false);
+
+  function handleSignOut() {
+    signOut();
+    setOpen(false);
+    router.push("/");
+  }
 
   return (
     <header className="bg-[#0a1628] text-white sticky top-0 z-40 border-b border-white/10">
@@ -38,21 +47,41 @@ export function AppHeader() {
                 {label}
               </Link>
             ))}
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center rounded-md font-medium transition-colors border-2 border-white text-white hover:bg-white/10 h-10 px-4"
-            >
-              Sign In
-            </Link>
+            {isLoggedIn ? (
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="inline-flex items-center justify-center rounded-md font-medium transition-colors border-2 border-white text-white hover:bg-white/10 h-10 px-4"
+              >
+                Sign out
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center rounded-md font-medium transition-colors border-2 border-white text-white hover:bg-white/10 h-10 px-4"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           <div className="flex md:hidden items-center gap-2">
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center rounded-md border-2 border-white text-white hover:bg-white/10 h-9 px-3 text-sm"
-            >
-              Sign In
-            </Link>
+            {isLoggedIn ? (
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="inline-flex items-center justify-center rounded-md border-2 border-white text-white hover:bg-white/10 h-9 px-3 text-sm"
+              >
+                Sign out
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center rounded-md border-2 border-white text-white hover:bg-white/10 h-9 px-3 text-sm"
+              >
+                Sign In
+              </Link>
+            )}
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}

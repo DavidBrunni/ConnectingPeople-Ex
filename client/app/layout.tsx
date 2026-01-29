@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased font-sans">
+    <html lang="en" className="outline-none" style={{ outline: "none" }}>
+      <body className="antialiased font-sans outline-none" style={{ outline: "none" }}>
         {children}
       </body>
     </html>

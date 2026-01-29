@@ -8,7 +8,7 @@ import { Footer } from "../components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col font-sans">
+    <main className="min-h-screen flex flex-col font-sans outline-none">
       <Hero />
       <HowItWorks />
       <TrendingDestinations />
