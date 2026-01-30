@@ -27,8 +27,11 @@
 ## 📂 Project Structure
 
 ConnectingPeople-Ex/
+
 ├── client/ # Frontend (Next.js + Tailwind)
+
 ├── server/ # Backend (Express + MongoDB)
+
 └── README.md
 
 ---
