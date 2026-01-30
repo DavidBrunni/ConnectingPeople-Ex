@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plane, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { getUnreadCount } from "@/lib/api";
 
 const landingNav = [
   { label: "How it works", href: "#how-it-works" },
@@ -16,12 +17,30 @@ const appNav = [
   { label: "Search", href: "/search" },
   { label: "Forums", href: "/forums" },
   { label: "Events", href: "/events" },
+  { label: "Messages", href: "/messages" },
   { label: "Profile", href: "/profile" },
 ] as const;
 
 export default function Header() {
   const { isLoggedIn, signOut } = useAuth();
   const [open, setOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      queueMicrotask(() => setUnreadCount(0));
+      return;
+    }
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) return;
+    getUnreadCount(token)
+      .then(setUnreadCount)
+      .catch(() => setUnreadCount(0));
+    const interval = setInterval(() => {
+      getUnreadCount(token).then(setUnreadCount).catch(() => {});
+    }, 20000);
+    return () => clearInterval(interval);
+  }, [isLoggedIn]);
 
   function handleSignOut() {
     signOut();
@@ -43,9 +62,17 @@ export default function Header() {
                 <Link
                   key={href}
                   href={href}
-                  className="text-white/90 hover:text-cyan-400 transition-colors"
+                  className="relative text-white/90 hover:text-cyan-400 transition-colors"
                 >
                   {label}
+                  {href === "/messages" && unreadCount > 0 && (
+                    <span
+                      className="absolute -top-1.5 -right-2 min-w-[1.25rem] h-5 px-1 rounded-full bg-red-500 text-white text-xs font-medium flex items-center justify-center"
+                      aria-label={`${unreadCount} unread messages`}
+                    >
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  )}
                 </Link>
               ))}
               <button
@@ -118,9 +145,14 @@ export default function Header() {
                   key={href}
                   href={href}
                   onClick={() => setOpen(false)}
-                  className="py-2 px-3 rounded-lg text-white/90 hover:bg-white/10 hover:text-cyan-400 transition-colors"
+                  className="relative py-2 px-3 rounded-lg text-white/90 hover:bg-white/10 hover:text-cyan-400 transition-colors"
                 >
                   {label}
+                  {href === "/messages" && unreadCount > 0 && (
+                    <span className="ml-2 inline-flex min-w-[1.25rem] h-5 px-1 rounded-full bg-red-500 text-white text-xs font-medium items-center justify-center">
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  )}
                 </Link>
               ))
             : landingNav.map(({ label, href }) => (

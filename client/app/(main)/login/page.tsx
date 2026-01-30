@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import { Plane } from "lucide-react";
+import { login as apiLogin, register as apiRegister } from "@/lib/api";
 
 type Mode = "login" | "signup";
 
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const [mode, setMode] = useState<Mode>("login");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,20 +35,24 @@ export default function LoginPage() {
     return Object.keys(e).length === 0;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
-    // Mock: spara i localStorage och redirect till /profile
-    setTimeout(() => {
-      if (mode === "signup") {
-        localStorage.setItem("user", JSON.stringify({ name, email }));
-      } else {
-        localStorage.setItem("user", JSON.stringify({ name: name || "Traveler", email }));
-      }
+    setApiError("");
+    try {
+      const data =
+        mode === "signup"
+          ? await apiRegister(name, email, password)
+          : await apiLogin(email, password);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       router.push("/profile");
+    } catch (err) {
+      setApiError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
       setLoading(false);
-    }, 400);
+    }
   }
 
   return (
@@ -85,6 +91,12 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-[#0a1628] mb-6">
             {mode === "login" ? "Welcome back" : "Create your account"}
           </h1>
+
+          {apiError && (
+            <p className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm" role="alert">
+              {apiError}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
