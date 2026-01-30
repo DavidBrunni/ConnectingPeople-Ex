@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plane, Menu, X } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { getUnreadCount } from "@/lib/api";
 
 const appNav = [
   { label: "Home", href: "/" },
   { label: "Search", href: "/search" },
   { label: "Forums", href: "/forums" },
   { label: "Events", href: "/events" },
+  { label: "Messages", href: "/messages" },
   { label: "Profile", href: "/profile" },
 ] as const;
 
@@ -19,6 +21,23 @@ export function AppHeader() {
   const router = useRouter();
   const { isLoggedIn, signOut } = useAuth();
   const [open, setOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setUnreadCount(0);
+      return;
+    }
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) return;
+    getUnreadCount(token)
+      .then(setUnreadCount)
+      .catch(() => setUnreadCount(0));
+    const interval = setInterval(() => {
+      getUnreadCount(token).then(setUnreadCount).catch(() => {});
+    }, 20000);
+    return () => clearInterval(interval);
+  }, [isLoggedIn]);
 
   function handleSignOut() {
     signOut();
@@ -40,11 +59,19 @@ export function AppHeader() {
               <Link
                 key={href}
                 href={href}
-                className={`transition-colors ${
+                className={`relative transition-colors ${
                   pathname === href ? "text-cyan-400" : "hover:text-cyan-400"
                 }`}
               >
                 {label}
+                {href === "/messages" && unreadCount > 0 && (
+                  <span
+                    className="absolute -top-1.5 -right-2 min-w-[1.25rem] h-5 px-1 rounded-full bg-red-500 text-white text-xs font-medium flex items-center justify-center"
+                    aria-label={`${unreadCount} unread messages`}
+                  >
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
               </Link>
             ))}
             {isLoggedIn ? (
@@ -109,11 +136,16 @@ export function AppHeader() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={`py-2 px-3 rounded-lg transition-colors ${
+                className={`relative py-2 px-3 rounded-lg transition-colors ${
                   pathname === href ? "bg-cyan-500/20 text-cyan-400" : "hover:bg-white/10"
                 }`}
               >
                 {label}
+                {href === "/messages" && unreadCount > 0 && (
+                  <span className="ml-2 inline-flex min-w-[1.25rem] h-5 px-1 rounded-full bg-red-500 text-white text-xs font-medium items-center justify-center">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
               </Link>
             ))}
           </div>

@@ -5,6 +5,8 @@ require('dotenv').config();
 const { connectDB } = require('./config/db');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const tripRoutes = require('./routes/trips');
+const messageRoutes = require('./routes/messages');
 
 const app = express();
 
@@ -18,6 +20,8 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/trips', tripRoutes);
+app.use('/api/messages', messageRoutes);
 
 const PORT = process.env.PORT || 5000;
 if (require.main === module) {
