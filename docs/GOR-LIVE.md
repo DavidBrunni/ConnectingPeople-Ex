@@ -75,10 +75,10 @@ Vercel kan bara hosta frontend. Backend måste ligga någon annanstans.
 
 ## Sammanfattning
 
-| Vad        | Var det ligger live |
-|-----------|----------------------|
-| Frontend  | Vercel (din .vercel.app-länk) |
-| Backend   | Render eller Railway (din API-URL) |
-| Databas   | MongoDB Atlas (används av backend) |
+| Vad      | Var det ligger live                |
+| -------- | ---------------------------------- |
+| Frontend | Vercel (din .vercel.app-länk)      |
+| Backend  | Render eller Railway (din API-URL) |
+| Databas  | MongoDB Atlas (används av backend) |
 
 Efter detta: när du ändrar något lokalt, kör `git add .` → `git commit -m "..."` → `git push`. Då bygger Vercel om frontend automatiskt, och Render/Railway bygger om backend om du ändrat under `server/`.
